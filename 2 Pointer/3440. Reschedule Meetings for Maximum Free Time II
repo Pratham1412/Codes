@@ -1,0 +1,42 @@
+3440. Reschedule Meetings for Maximum Free Time II
+
+class Solution {
+public:
+    int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
+        int n=startTime.size();
+        vector<int> spaces;
+        spaces.push_back(startTime[0]);
+        for(int i=1;i<n;i++){
+            spaces.push_back(startTime[i] - endTime[i-1]);
+        }
+
+        spaces.push_back(eventTime - endTime[n-1]);
+        int m=spaces.size();
+
+        vector<int> MaxRight(m,0);
+        vector<int> MaxLeft(m,0);
+
+        for(int i=m-2;i>=0;i--){
+            MaxRight[i] = max(MaxRight[i+1],spaces[i+1]);
+        }
+
+        for(int i=1;i<m;i++){
+            MaxLeft[i] = max(MaxLeft[i-1],spaces[i-1]);
+        }
+
+        int ans=0;
+
+        for(int i=1;i<m;i++){
+            int currTime = endTime[i-1] - startTime[i-1];
+
+            if(currTime <= max(MaxLeft[i-1],MaxRight[i])){
+                ans = max(ans,spaces[i] + currTime + spaces[i-1]);
+            }
+
+            ans= max(ans,spaces[i-1] + spaces[i]);
+        }
+
+        return ans;
+
+    }
+};
