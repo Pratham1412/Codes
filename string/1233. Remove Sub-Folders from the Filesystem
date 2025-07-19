@@ -1,0 +1,24 @@
+1233. Remove Sub-Folders from the Filesystem
+
+
+sort karde pehla toh obviously folder hoga aage jake check karle simple 
+
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        int n=folder.size();
+        sort(folder.begin(),folder.end());
+        vector<string> ans;
+        ans.push_back(folder[0]);
+        for(int i=1;i<n;i++){
+            string curr = folder[i];
+            string last = ans.back();
+            last += '/';
+            if(curr.find(last) != 0){
+                ans.push_back(curr);
+            }
+        }
+        return ans;
+
+    }
+};
