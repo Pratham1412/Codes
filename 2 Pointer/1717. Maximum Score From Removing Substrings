@@ -1,1 +1,47 @@
-hello
+
+time complexity = O(2N)
+space complexity  = O(1)
+
+
+class Solution {
+public:
+
+    string fn(string &s, string &match){
+        int i=0;
+        
+        for(int j=0;j<s.length();j++){
+            s[i] = s[j];
+            i++;
+            if(i >= 2 && s[i-2] == match[0] && s[i-1] == match[1]){
+                i= i-2;
+            }
+        }
+
+        s.erase(s.begin() + i ,s.end());
+
+        return s;
+
+
+
+    }
+
+    int maximumGain(string s, int x, int y) {
+        int n=s.length();
+        int ans=0;
+        string maxi = (x >= y) ? "ab" : "ba";
+        string mini = (x < y) ? "ab" : "ba";
+
+        string first = fn(s,maxi);
+        int L = first.length();
+        int charRemoved = n - L;
+        ans += (charRemoved/2)  * max(x,y);
+
+        string second = fn(first,mini);
+        charRemoved = L - second.length();
+        ans += (charRemoved/2) * min(x,y);
+
+        return ans;
+
+         
+    }
+};
